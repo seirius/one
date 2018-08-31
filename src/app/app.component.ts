@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'one';
+
+  constructor(
+    private http: HttpClient
+  ) {
+
+  }
+
+  public click(e): void {
+    this.http.get('/api/hello').subscribe(response => console.log(response));
+  }
 }
