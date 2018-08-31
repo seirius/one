@@ -1,4 +1,9 @@
 <div>
   <button type="button" (click)="click($event)">Call</button>
 </div>
+<div>
+    <div *ngFor="let champion of champions | async">
+        {{ champion }}
+    </div>
+</div>
 
