@@ -16,6 +16,7 @@ export class AppComponent {
   }
 
   public click(e): void {
-    this.http.get('/api/hello').subscribe(response => console.log(response));
+    this.http.post('/api/gql', { query: '{ hello }' })
+    .subscribe(response => console.log(response));
   }
 }
