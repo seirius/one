@@ -21,7 +21,7 @@ export class AppComponent {
     }
 
     public click(e): void {
-        this.http.post('/api/gql', { query: '{ hello }' })
+        this.http.post('/api/gql', { query: `{ summoner(name: "SeiRiuS") {name, summonerLevel} }` })
             .subscribe(response => console.log(response));
     }
 }
