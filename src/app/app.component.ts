@@ -12,6 +12,8 @@ export class AppComponent {
     title = 'one';
 
     public champions: Observable<any[]>;
+    public icon = '';
+    public summonerName: string;
 
     constructor(
         private http: HttpClient,
@@ -21,7 +23,15 @@ export class AppComponent {
     }
 
     public click(e): void {
-        this.http.post('/api/gql', { query: `{ summoner(name: "SeiRiuS") {name, summonerLevel} }` })
-            .subscribe(response => console.log(response));
+        if (this.summonerName) {
+            console.log(this.summonerName);
+            this.http.post('/api/gql', { query: `{ summoner(name: "${this.summonerName}") {name, summonerLevel, profileIconId} }` })
+            .subscribe((response: any) => {
+                this.http.post('/api/gql', {query: `{ profileIcon(iconId: ${response.data.summoner.profileIconId}) }`})
+                .subscribe((profileResponse: any) => {
+                    this.icon = profileResponse.data.profileIcon;
+                });
+            });
+        }
     }
 }
