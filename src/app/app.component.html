@@ -1,18 +1,1 @@
-<div>
-    <p>GraphQL + Riot Api test</p>
-    <div>
-        <div>
-            <img [src]="icon" alt="ProfileIcon">
-        </div>
-    </div>
-    <div>
-        <input type="text" name="summonerName" [(ngModel)]="summonerName">
-        <button type="button" (click)="click($event)">Call</button>
-    </div>
-</div>
-<div>
-    <p>Firebase test</p>
-    <div *ngFor="let champion of champions | async">
-        {{ champion }}
-    </div>
-</div>
+<router-outlet></router-outlet>
