@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 
@@ -16,11 +17,21 @@ export class TestComponent implements OnInit {
     public icon = '';
     public summonerName: string;
 
+    public user = {
+        user: '',
+        password: ''
+    };
+
+    public signedIn = false;
+
     constructor(
         private http: HttpClient,
-        private db: AngularFireDatabase
+        private db: AngularFireDatabase,
+        private auth: AngularFireAuth
     ) {
         this.champions = db.list('champions').valueChanges();
+
+        this.auth.authState.subscribe(state => this.signedIn = state != null);
     }
 
     public click(e): void {
@@ -34,6 +45,20 @@ export class TestComponent implements OnInit {
                 });
             });
         }
+    }
+
+    public signIn(e): void {
+        this.auth.auth.signInWithEmailAndPassword(this.user.user, this.user.password)
+        .catch(error => console.error(error));
+    }
+
+    public register(e): void {
+        this.auth.auth.createUserWithEmailAndPassword(this.user.user, this.user.password)
+        .catch(error => console.error(error));
+    }
+
+    public signOut(e): void {
+        this.auth.auth.signOut();
     }
 
     ngOnInit() {}

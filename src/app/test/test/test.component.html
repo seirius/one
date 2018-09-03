@@ -16,3 +16,21 @@
         {{ champion }}
     </div>
 </div>
+<div>
+    <p>Firebase auth</p>
+    <form (submit)="signIn($event)">
+        <div>
+            <label for="">User</label>
+            <input type="text" name="user" [(ngModel)]="user.user">
+        </div>
+        <div>
+            <label for="">Password</label>
+            <input type="password" name="password" [(ngModel)]="user.password">
+        </div>
+        <div>
+            <button type="submit" [hidden]="signedIn">Sign in</button>
+            <button type="button" (click)="register($event)" [hidden]="signedIn">Register</button>
+            <button type="button" (click)="signOut($event)" [hidden]="!signedIn">SignOut</button>
+        </div>
+    </form>
+</div>
