@@ -31,16 +31,23 @@ export class TestComponent implements OnInit {
     ) {
         this.champions = db.list('champions').valueChanges();
 
-        this.auth.authState.subscribe(state => this.signedIn = state != null);
+        this.auth.authState.subscribe(user => {
+            this.signedIn = user != null;
+            if (user) {
+                console.log(user);
+            }
+        });
     }
 
     public click(e): void {
         if (this.summonerName) {
             console.log(this.summonerName);
-            this.http.post('/api/gql', { query: `{ summoner(name: "${this.summonerName}") {name, summonerLevel, profileIconId} }` })
-            .subscribe((response: any) => {
-                this.http.post('/api/gql', {query: `{ profileIcon(iconId: ${response.data.summoner.profileIconId}) }`})
-                .subscribe((profileResponse: any) => {
+            this.http.post('/api/gql', 
+                { query: `{ summoner(name: "${this.summonerName}") {name, summonerLevel, profileIconId} }` }
+            ).subscribe((response: any) => {
+                this.http.post('/api/gql', 
+                {query: `{ profileIcon(iconId: ${response.data.summoner.profileIconId}) }`}
+            ).subscribe((profileResponse: any) => {
                     this.icon = profileResponse.data.profileIcon;
                 });
             });
